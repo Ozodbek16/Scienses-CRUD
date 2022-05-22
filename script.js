@@ -1,15 +1,20 @@
 const express = require('express')
 const res = require('express/lib/response')
 const { default: helmet } = require('helmet')
+const morgan = require('morgan')
 const Joi = require('joi')
+const tekshiruv = require('./middleware/tekshiruv')
 const app = express()
 
 
 app.use(express.json())
 app.use(helmet())
+app.use(tekshiruv())
 
-app.use('./middleware/tekshiruv.js')
-
+// app.use('./middleware/tekshiruv.js')
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny'))
+}
 
 
 const scienses = [
@@ -19,7 +24,7 @@ const scienses = [
     { name: 'Chemistry', time: '11:00', id: 4 }
 ]
 
-app.get('/api', (req, res) => {
+app.get('/api', tekshiruv, (req, res) => {
     res.send(scienses)
 })
 
