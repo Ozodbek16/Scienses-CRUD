@@ -5,14 +5,17 @@ const morgan = require('morgan')
 const Joi = require('joi')
 const tekshiruv = require('./middleware/tekshiruv')
 const app = express()
+const dotenv = require('dotenv').config()
 
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 app.use(helmet())
-app.use(tekshiruv())
+app.use(tekshiruv)
 
 // app.use('./middleware/tekshiruv.js')
-if (app.get('env') === 'development') {
+if (process.env.node_env === 'development') {
     app.use(morgan('tiny'))
 }
 
@@ -21,7 +24,7 @@ const scienses = [
     { name: 'Mathematics', time: '08:00', id: 1 },
     { name: 'Mother tongue', time: '09:00', id: 2 },
     { name: 'Literature', time: '10:00', id: 3 },
-    { name: 'Chemistry', time: '11:00', id: 4 }
+    { name: 'Chemistry', time: '11:00', id: 4 },
 ]
 
 app.get('/api', tekshiruv, (req, res) => {
