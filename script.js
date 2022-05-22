@@ -1,16 +1,16 @@
 const express = require('express')
 const res = require('express/lib/response')
+const { default: helmet } = require('helmet')
 const Joi = require('joi')
 const app = express()
 
 
 app.use(express.json())
+app.use(helmet())
 
-app.use((req, res, next) => {
-    console.log('Tekshiruv')
+app.use('./middleware/tekshiruv.js')
 
-    next()
-})
+
 
 const scienses = [
     { name: 'Mathematics', time: '08:00', id: 1 },
