@@ -6,6 +6,12 @@ const app = express()
 
 app.use(express.json())
 
+app.use((req, res, next) => {
+    console.log('Tekshiruv')
+
+    next()
+})
+
 const scienses = [
     { name: 'Mathematics', time: '08:00', id: 1 },
     { name: 'Mother tongue', time: '09:00', id: 2 },
